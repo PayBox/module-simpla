@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>
+		PayBox
+	</name>
+	<settings>
+		<variable>merchant_id</variable>
+		<name>Номер магазина</name>
+	</settings>
+	<settings>
+		<variable>secret_key</variable>
+		<name>Секретный ключ</name>
+	</settings>
+	<settings>
+		<variable>lifetime</variable>
+		<name>Время жизни счета в минутах (от 5 мин до 7 дней). 0 - не учитывается</name>
+	</settings>
+	<settings>
+		<variable>testmode</variable>
+		<name>Режим оплаты</name>
+		<options>
+			<name>Тестовый режим</name>
+			<value>test</value>
+		</options>
+		<options>
+			<name>Рабочий режим</name>
+			<value>0</value>
+		</options>
+	</settings>
+	<settings>
+		<variable>payment_system</variable>
+		<name>Если ПС планируется выбирать на стороне магазина. Настраивается для боевого режима</name>
+	</settings>
+	<settings>
+		<variable>language</variable>
+		<name>Язык шлюза</name>
+		<options>
+			<name>Русский</name>
+			<value>ru</value>
+		</options>
+		<options>
+			<name>Английский</name>
+			<value>en</value>
+		</options>
+	</settings>
+</module>
