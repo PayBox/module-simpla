@@ -4,17 +4,17 @@ require_once('api/Simpla.php');
 require_once('PG_Signature.php');
 
 class Paybox extends Simpla
-{	
+{
 	public function checkout_form($order_id, $button_text = null)
 	{
 		if(empty($button_text))
 			$button_text = 'Перейти к оплате';
-		
+
 		$order = $this->orders->get_order((int)$order_id);
 		$payment_method = $this->payment->get_payment_method($order->payment_method_id);
 		$payment_settings = $this->payment->get_payment_settings($payment_method->id);
 		$payment_currency = $this->money->get_currency($payment_method->currency_id);
-		
+
 		$arrOrderItems = $this->orders->get_purchases(array('order_id'=>intval($order->id)));
 		$strDescription = '';
 		foreach($arrOrderItems as $objItem){
@@ -26,7 +26,7 @@ class Paybox extends Simpla
 
 		$result_url = $this->config->root_url.'/order/'.$order->url;
 		$server_url = $this->config->root_url.'/payment/Paybox/callback.php';
-		
+
 		$arrFields = array(
 			'pg_merchant_id'		=> $payment_settings['merchant_id'],
 			'pg_order_id'			=> $order_id,
@@ -51,19 +51,19 @@ class Paybox extends Simpla
 			$strPhone = implode('',@$array[0]);
 			$arrFields['pg_user_phone'] = $strPhone;
 		}
-		
+
 		if(!empty($order->email)){
 			$arrFields['pg_user_email'] = $order->email;
 			$arrFields['pg_user_contact_email'] = $order->email;
 		}
-		
+
 		if(!empty($payment_settings['payment_system']))
 			$arrFields['pg_payment_system'] = $payment_settings['payment_system'];
-		
+
 		$arrFields['pg_sig'] = PG_Signature::make('payment.php', $arrFields, $payment_settings['secret_key']);
 
-		$strForm = "<form action='https://paybox.kz/payment.php' method=POST>";
-		
+		$strForm = "<form action='https://api.paybox.money/payment.php' method=POST>";
+
 		foreach($arrFields as $strParamName => $strParamValue){
 			$strForm .= "<input type=hidden name='$strParamName' value='$strParamValue'>";
 		}
